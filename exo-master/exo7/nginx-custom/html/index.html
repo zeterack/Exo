@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPE - Virtualisation & Docker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .docker-logo {
+            font-size: 4rem;
+            color: #0db7ed;
+            margin-bottom: 1rem;
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .service {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .service h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .port {
+            background: #3498db;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .links {
+            margin: 1rem 0;
+        }
+        
+        .links a {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .links a:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="docker-logo">🐳</div>
+        <h1>Exercice 7 - Docker Compose</h1>
+        <div class="subtitle">Stack WordPress complète avec MySQL et PHPMyAdmin</div>
+        
+        <div class="services">
+            <div class="service">
+                <h3>WordPress 1</h3>
+                <p>Premier site WordPress</p>
+                <span class="port">:8080</span>
+            </div>
+            <div class="service">
+                <h3>WordPress 2</h3>
+                <p>Deuxième site WordPress</p>
+                <span class="port">:8088</span>
+            </div>
+            <div class="service">
+                <h3>PHPMyAdmin</h3>
+                <p>Interface d'administration MySQL</p>
+                <span class="port">:8090</span>
+            </div>
+            <div class="service">
+                <h3>Site Custom</h3>
+                <p>Page HTML personnalisée</p>
+                <span class="port">:8091</span>
+            </div>
+        </div>
+        
+        <div class="links">
+            <a href="http://localhost:8080" target="_blank">WordPress 1</a>
+            <a href="http://localhost:8088" target="_blank">WordPress 2</a>
+            <a href="http://localhost:8090" target="_blank">PHPMyAdmin</a>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Cours CPE - Virtualisation</strong></p>
+            <p>Stack créée avec Docker Compose</p>
+            <p>🔹 2 WordPress • 2 MySQL • 1 PHPMyAdmin • 1 Nginx Custom</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # First MySQL Database
+  mysql1:
+    image: mysql:8
+    container_name: mysql1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_DATABASE: wordpress1
+      MYSQL_USER: wpuser1
+      MYSQL_PASSWORD: wppass123
+    volumes:
+      - mysql1_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - wordpress_network
+
+  # Second MySQL Database
+  mysql2:
+    image: mysql:8
+    container_name: mysql2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass456
+      MYSQL_DATABASE: wordpress2
+      MYSQL_USER: wpuser2
+      MYSQL_PASSWORD: wppass456
+    volumes:
+      - mysql2_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - wordpress_network
+
+  # First WordPress Site
+  wordpress1:
+    image: wordpress:latest
+    container_name: wordpress1
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql1:3306
+      WORDPRESS_DB_NAME: wordpress1
+      WORDPRESS_DB_USER: wpuser1
+      WORDPRESS_DB_PASSWORD: wppass123
+    volumes:
+      - wordpress1_data:/var/www/html
+    depends_on:
+      - mysql1
+    networks:
+      - wordpress_network
+
+  # Second WordPress Site
+  wordpress2:
+    image: wordpress:latest
+    container_name: wordpress2
+    restart: always
+    ports:
+      - "8088:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql2:3306
+      WORDPRESS_DB_NAME: wordpress2
+      WORDPRESS_DB_USER: wpuser2
+      WORDPRESS_DB_PASSWORD: wppass456
+    volumes:
+      - wordpress2_data:/var/www/html
+    depends_on:
+      - mysql2
+    networks:
+      - wordpress_network
+
+  # PHPMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOSTS: mysql1,mysql2
+      PMA_PORTS: 3306,3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpass123
+      MYSQL_ROOT_PASSWORD: rootpass123
+    depends_on:
+      - mysql1
+      - mysql2
+    networks:
+      - wordpress_network
+
+  # Custom Nginx Site
+  custom_nginx:
+    build:
+      context: ./nginx-custom
+      dockerfile: Dockerfile
+    container_name: custom_nginx
+    restart: always
+    ports:
+      - "8091:80"
+    networks:
+      - wordpress_network
+
+volumes:
+  mysql1_data:
+  mysql2_data:
+  wordpress1_data:
+  wordpress2_data:
+
+networks:
+  wordpress_network:
+    driver: bridge
