@@ -57,3 +57,62 @@ Donc, la version 11.0 et 11.10  utilise la même structure de fichier pour stock
 
 2. Démarrer une nouvelle instance de PG et charger le dump précédemment réaliser dans cette nouvelle instance
    1. Vérifier que votre import s'est bien réaliser.
+
+# Solutions Exo 6
+
+## Partie 1 - Volume PG
+1. Démarrer un serveur PG avec l'image `postgres:11.0` et persister ses fichiers de données sur votre machine (voir Docker-Hub pour savoir comment faire). 
+
+   1. Faites le nécessaire pour que l'image démarre.
+   2. Vérifier bien que les fichiers de la base sont bien sur votre disque
+
+```bash
+sudo docker run -d --name pg-11.0 -e POSTGRES_PASSWORD=mysecretpassword -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:11.0
+```   
+2. Dans l'instance PG, créer une base de données (si besoin) et une table.
+
+   1. Vous devez faire ceci sans installer le moindre client sur votre poste ! (vous devez directement passer par l'image, en utilisant l'utilitaire `psql`)
+
+   2. Quelques commandes pour PostgreSQL
+
+      ```bash
+      sudo docker exec -it pg-11.0 psql -U postgres
+      ```
+
+      ```sql
+      CREATE DATABASE test;
+      \c test # Se connecter à la base "test"
+      CREATE TABLE table_name (
+         id int
+      );
+      \dt # Liste les tables
+      \l  # Liste les databases
+      ```
+3. Stopper et supprimer votre container.
+
+```bash
+sudo docker stop pg-11.0
+sudo docker rm pg-11.0
+```
+4. Démarrer, sur le même pointage de montage, l'image `postgres:11.1`
+
+```bash
+sudo docker run -d --name pg-11.1 -e POSTGRES_PASSWORD=mysecretpassword -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
+:11.1
+```
+5. Vérifier que vous pouvez retrouver votre database ainsi que la table.
+
+```bash
+sudo docker exec -it pg-11.1 psql -U postgres
+\l
+\c test
+\dt
+```   
+6. Refaire la même même opération pour revenir à l'image `postgres:11.0`
+
+```bash
+sudo docker stop pg-11.1
+sudo docker rm pg-11.1  
+sudo docker run -d --name pg-11.0 -e POSTGRES_PASSWORD=mysecretpassword -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:11.0
+```
+
