@@ -58,7 +58,7 @@ Donc, la version 11.0 et 11.10  utilise la même structure de fichier pour stock
 2. Démarrer une nouvelle instance de PG et charger le dump précédemment réaliser dans cette nouvelle instance
    1. Vérifier que votre import s'est bien réaliser.
 
-# Solutions Exo 6
+# Solutions Exo 6 : montée de version décente de version
 
 ## Partie 1 - Volume PG
 1. Démarrer un serveur PG avec l'image `postgres:11.0` et persister ses fichiers de données sur votre machine (voir Docker-Hub pour savoir comment faire). 
